@@ -1,0 +1,95 @@
+{
+  "table_8_1": [
+    {
+      "max_input_mbh": 25,
+      "free_area_in2": 7,
+      "round_duct_in": 3
+    },
+    {
+      "max_input_mbh": 50,
+      "free_area_in2": 7,
+      "round_duct_in": 3
+    },
+    {
+      "max_input_mbh": 75,
+      "free_area_in2": 11,
+      "round_duct_in": 4
+    },
+    {
+      "max_input_mbh": 100,
+      "free_area_in2": 14,
+      "round_duct_in": 4
+    },
+    {
+      "max_input_mbh": 125,
+      "free_area_in2": 18,
+      "round_duct_in": 5
+    },
+    {
+      "max_input_mbh": 150,
+      "free_area_in2": 22,
+      "round_duct_in": 5
+    },
+    {
+      "max_input_mbh": 175,
+      "free_area_in2": 25,
+      "round_duct_in": 6
+    },
+    {
+      "max_input_mbh": 200,
+      "free_area_in2": 29,
+      "round_duct_in": 6
+    },
+    {
+      "max_input_mbh": 225,
+      "free_area_in2": 32,
+      "round_duct_in": 6
+    },
+    {
+      "max_input_mbh": 250,
+      "free_area_in2": 36,
+      "round_duct_in": 7
+    },
+    {
+      "max_input_mbh": 275,
+      "free_area_in2": 40,
+      "round_duct_in": 7
+    },
+    {
+      "max_input_mbh": 300,
+      "free_area_in2": 43,
+      "round_duct_in": 7
+    },
+    {
+      "max_input_mbh": 325,
+      "free_area_in2": 47,
+      "round_duct_in": 8
+    },
+    {
+      "max_input_mbh": 350,
+      "free_area_in2": 50,
+      "round_duct_in": 8
+    },
+    {
+      "max_input_mbh": 375,
+      "free_area_in2": 54,
+      "round_duct_in": 8
+    },
+    {
+      "max_input_mbh": 400,
+      "free_area_in2": 58,
+      "round_duct_in": 9
+    }
+  ],
+  "table_8_1_notes": "For inputs between listed figures use the next largest listed input. Round-duct sizes assume a maximum equivalent duct length of 20 ft; for over 20 ft up to 50 ft, increase the round duct by one size. A rectangular duct may not have a dimension under 3 in, so rectangular free area is never under 9 in2 (Clause 8.3.2).",
+  "clause_8_4": {
+    "with_draft_control": "1 in2 per 7,000 Btu/h up to and including 1,000,000 Btu/h, plus 1 in2 per 14,000 Btu/h in excess (8.4.2); opening at or ducted to 6-18 in above floor level.",
+    "power_burner_no_draft_control": "1 in2 per 30,000 Btu/h of total rated input (8.4.3).",
+    "ventilation_opening": "At the highest practicable point: at least 10% of the supply-opening area and never less than 10 in2 (8.4.1), in addition to the supply opening.",
+    "mixed": "Sum of the 8.4.2 and 8.4.3 requirements (8.4.4)."
+  },
+  "enclosure_openings_8_2_6": "Appliance enclosure inside a loose-construction structure: opening(s) with free area at least 1 in2 per 1,000 Btu/h of total input, 6-18 in above floor; plus, where any appliance has a draft-control device, a second opening of the same free area as near the ceiling as practicable.",
+  "not_covered": "Table 8.2 grid (no draft control, tight construction, up to 400 MBH) and the volume-based Tables 8.3/8.4 (loose construction) are not reproduced \u2014 their full grids could not be verified from public sources. Two verified Table 8.2 points: 125 MBH -> 9 in2; 200 MBH -> 14 in2.",
+  "louvre_rules": "Free area is gross area minus louvre/grille/screen blockage (8.5.1); louvre apertures no dimension under 1/4 in (8.5.2); no manually operated dampers or adjustable louvres (8.5.3); automatic dampers must be interlocked with the burner (8.5.4).",
+  "source": "CSA B149.1 Clause 8 (B149.1-05 text and BC Campus gas-fitter textbook), verified 2026-11-15"
+}
