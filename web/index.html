@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ontario Combustion Air Calculator | Dust 2 Engineering Inc.</title>
+<style>
+:root{color-scheme:dark}
+body{background:#0e1116;color:#e6e9ee;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;padding:24px;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto}
+h1{font-size:1.55rem;line-height:1.25;margin:.2em 0 .1em}
+h2{font-size:1.15rem;margin-top:1.6em;color:#ffd479}
+.sub{color:#9fb0c3;margin:.2em 0 1.2em}
+.card{background:#161b22;border:1px solid #2b333f;border-radius:12px;padding:18px;margin:14px 0}
+label{display:block;margin:.7em 0 .25em;color:#c8d3e0;font-size:.95rem}
+input,select{width:100%;box-sizing:border-box;background:#0e1116;color:#e6e9ee;border:1px solid #39424f;border-radius:8px;padding:9px;font-size:1rem}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.row{grid-template-columns:1fr}}
+button{background:#f0a832;color:#14100a;border:0;border-radius:8px;padding:11px 18px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:14px}
+pre{background:#0a0d11;border:1px solid #2b333f;border-radius:10px;padding:14px;white-space:pre-wrap;word-break:break-word;font-size:.92rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #2b333f;padding:6px 8px;text-align:left}
+th{background:#1b212b}
+.small{color:#9fb0c3;font-size:.88rem}
+a{color:#7cc4ff}
+.pass{color:#7ee2a0}.fail{color:#ff9c9c}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Ontario Combustion Air Calculator</h1>
+<p class="sub">Combustion air opening sizing for gas appliances — CSA B149.1 Clause 8, Table 8.1 and the Clause 8.4 formulas.</p>
+<div class="card">
+<div class="row"><div><label>Total input of all appliances (MBH = thousands of Btu/h)</label><input id="mbh" type="number" value="200"></div>
+<div><label>Appliances have draft-control devices (draft hood / barometric damper)?</label><select id="draft"><option value="1">Yes</option><option value="0">No — power burners</option></select></div></div>
+<button onclick="calc()">Size the combustion air opening</button>
+<pre id="out">Enter the total input.</pre>
+</div>
+<div class="card"><h2>Scope — read this</h2>
+<p>This tool covers the tight-construction path of CSA B149.1 Clause 8: <b>Table 8.1</b>
+(with draft control, up to 400 MBH) and the <b>Clause 8.4 formulas</b> above 400 MBH.
+The Table 8.2 grid and the loose-construction volume tables (8.3/8.4) are not
+reproduced — their full grids are not publicly verifiable, and this tool does not
+invent code data. Free area means net area after louvre and grille blockage.</p></div>
+<p class="small">Free tool by <b>Dust 2 Engineering Inc.</b>, Mississauga, Ontario — building permit
+drawings for restaurants and small commercial projects across the GTA, stamped by an Ontario P.Eng.
+Flat rate $3,500–$5,000. Questions or a project to discuss: open an issue in this repository.</p>
+</div>
+<script>
+
+const T81 = [{"max_input_mbh": 25, "free_area_in2": 7, "round_duct_in": 3}, {"max_input_mbh": 50, "free_area_in2": 7, "round_duct_in": 3}, {"max_input_mbh": 75, "free_area_in2": 11, "round_duct_in": 4}, {"max_input_mbh": 100, "free_area_in2": 14, "round_duct_in": 4}, {"max_input_mbh": 125, "free_area_in2": 18, "round_duct_in": 5}, {"max_input_mbh": 150, "free_area_in2": 22, "round_duct_in": 5}, {"max_input_mbh": 175, "free_area_in2": 25, "round_duct_in": 6}, {"max_input_mbh": 200, "free_area_in2": 29, "round_duct_in": 6}, {"max_input_mbh": 225, "free_area_in2": 32, "round_duct_in": 6}, {"max_input_mbh": 250, "free_area_in2": 36, "round_duct_in": 7}, {"max_input_mbh": 275, "free_area_in2": 40, "round_duct_in": 7}, {"max_input_mbh": 300, "free_area_in2": 43, "round_duct_in": 7}, {"max_input_mbh": 325, "free_area_in2": 47, "round_duct_in": 8}, {"max_input_mbh": 350, "free_area_in2": 50, "round_duct_in": 8}, {"max_input_mbh": 375, "free_area_in2": 54, "round_duct_in": 8}, {"max_input_mbh": 400, "free_area_in2": 58, "round_duct_in": 9}];
+function calc(){
+  const mbh=+document.getElementById('mbh').value, draft=document.getElementById('draft').value==='1';
+  let s='';
+  if(mbh<=400){
+    if(!draft){ s='Table 8.2 grid not reproduced in this tool. Verified points: 125 MBH -> 9 in2; 200 MBH -> 14 in2. Consult B149.1 Table 8.2.'; }
+    else{
+      const row=T81.find(r=>mbh<=r.max_input_mbh);
+      s='Table 8.1: input rounded up to '+row.max_input_mbh+' MBH\nRequired free area: '+row.free_area_in2+' in2; round duct equivalent: '+row.round_duct_in+' in\nDuct note: sizes assume max 20 ft equivalent length; 20-50 ft -> one size up. Rectangular duct min dimension 3 in.';
+    }
+  } else {
+    let supply;
+    if(draft){ supply=Math.min(mbh*1000,1000000)/7000 + Math.max(0,mbh*1000-1000000)/14000;
+      s='Clause 8.4.2 supply opening: '+supply.toFixed(2)+' in2 (1 in2 per 7,000 Btu/h to 1M, then 1 in2 per 14,000 Btu/h), located 6-18 in above floor\n'; }
+    else { supply=mbh*1000/30000;
+      s='Clause 8.4.3 supply opening: '+supply.toFixed(2)+' in2 (1 in2 per 30,000 Btu/h)\n'; }
+    const vent=Math.max(10, 0.10*supply);
+    s+='Clause 8.4.1 ventilation opening (in addition): '+vent.toFixed(2)+' in2 at the highest practicable point';
+  }
+  document.getElementById('out').textContent=s;
+}
+
+</script>
+</body>
+</html>
